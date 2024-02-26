@@ -1,0 +1,13 @@
+#! /bin/bash
+## here our crawler
+
+inputFile=$1
+
+if [ -e $inputFile ];then
+	# run gospider
+	gospider --sites $inputFile --depth 4 --other-source --include-other-source --sitemap --robots --delay 2 --threads 3 --json --quiet | grep -Ev ".(jpg|jpeg|gif|css|tif|tiff|png|woff|woff2|ico|mp3|mp4|webp)" | jq -r .output | anew sitemap
+
+else
+	echo "Provided file isn't Found: $inputFile"
+	exit 1
+fi
